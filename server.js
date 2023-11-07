@@ -6,7 +6,7 @@ import "dotenv/config.js";
 //Importación de rutas
 import { UserRouter, CommentRouter, RecipeRouter } from "./api/routes/index.js";
 
-// Conexión con Mongo DB Atlas Gaaaa
+// Conexión con Mongo DB Atlas
 
 const dbURL = process.env.DB_URL;
 await mongoose
@@ -14,9 +14,7 @@ await mongoose
   .then(() => console.log("Conectado"))
   .catch((error) => console.error(error));
 
-mongoose.connection.on("error", (error) =>
-  console.log("Error:" + error + " pipipi")
-);
+mongoose.connection.on("error", (error) => console.log("Error:" + error));
 mongoose.connection.on("connected", (error) =>
   console.log("Base de datos conectada")
 );
