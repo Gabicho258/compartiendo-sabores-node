@@ -4,7 +4,7 @@ import cors from "cors";
 import "dotenv/config.js";
 
 //Importación de rutas
-import { UserRouter, CommentRouter } from "./api/routes/index.js";
+import { UserRouter, CommentRouter, RecipeRouter } from "./api/routes/index.js";
 
 // Conexión con Mongo DB Atlas Gaaaa
 
@@ -34,6 +34,7 @@ app.use(express.json());
 
 app.use("/api", UserRouter);
 app.use("/api", CommentRouter);
+app.use("/api", RecipeRouter);
 
 app.use("/", (req, res) => {
   res.send("Welcome to 'Compartiendo Sabores' :)");
@@ -42,5 +43,5 @@ app.use("/", (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log("Server listening on port -> " + PORT);
+  console.log("Server listening on port: " + PORT);
 });
