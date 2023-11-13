@@ -7,6 +7,10 @@ const commentSchema = {
   comment: String,
 };
 
-const Comment = mongoose.model("Comment", commentSchema, "comment");
+const Comment = mongoose.model(
+  "Comment",
+  new mongoose.Schema(commentSchema, { timestamps: true }),
+  "comment"
+);
 
 export default Comment;

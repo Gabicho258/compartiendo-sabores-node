@@ -10,6 +10,10 @@ const userSchema = {
   photo_url: String,
 };
 
-const User = mongoose.model("User", userSchema, "user");
+const User = mongoose.model(
+  "User",
+  new mongoose.Schema(userSchema, { timestamps: true }),
+  "user"
+);
 
 export default User;
