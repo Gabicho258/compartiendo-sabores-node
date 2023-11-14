@@ -9,6 +9,7 @@ import {
   CommentRouter,
   RecipeRouter,
   ChatRouter,
+  MessageRouter,
 } from "./api/routes/index.js";
 
 // Conexión con Mongo DB Atlas
@@ -34,6 +35,7 @@ app.use("/api", UserRouter);
 app.use("/api", CommentRouter);
 app.use("/api", RecipeRouter);
 app.use("/api", ChatRouter);
+app.use("/api", MessageRouter);
 
 app.use("/", (req, res) => {
   res.send("Welcome to 'Compartiendo Sabores' :)");
