@@ -8,8 +8,14 @@ const userSchema = {
   phone_number: String,
   description: String,
   photo_url: String,
+  favorites: { type: Array, default: [] },
+  role: String,
 };
 
-const User = mongoose.model("User", userSchema, "user");
+const User = mongoose.model(
+  "User",
+  new mongoose.Schema(userSchema, { timestamps: true }),
+  "user"
+);
 
 export default User;

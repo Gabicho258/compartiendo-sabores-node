@@ -4,20 +4,21 @@ import cors from "cors";
 import "dotenv/config.js";
 
 //Importación de rutas
-import { UserRouter, CommentRouter, RecipeRouter } from "./api/routes/index.js";
+import {
+  UserRouter,
+  CommentRouter,
+  RecipeRouter,
+  ChatRouter,
+  MessageRouter,
+} from "./api/routes/index.js";
 
 // Conexión con Mongo DB Atlas
 
 const dbURL = process.env.DB_URL;
 await mongoose
   .connect(dbURL)
-  .then(() => console.log("Conectado"))
+  .then(() => console.log("Base de datos conectada"))
   .catch((error) => console.error(error));
-
-mongoose.connection.on("error", (error) => console.log("Error:" + error));
-mongoose.connection.on("connected", (error) =>
-  console.log("Base de datos conectada")
-);
 
 // Server
 
@@ -33,12 +34,14 @@ app.use(express.json());
 app.use("/api", UserRouter);
 app.use("/api", CommentRouter);
 app.use("/api", RecipeRouter);
+app.use("/api", ChatRouter);
+app.use("/api", MessageRouter);
 
 app.use("/", (req, res) => {
   res.send("Welcome to 'Compartiendo Sabores' :)");
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log("Server listening on port: " + PORT);

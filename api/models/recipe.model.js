@@ -11,6 +11,10 @@ const recipeSchema = {
   views: { type: Number, default: 0 },
 };
 
-const Recipe = mongoose.model("Recipe", recipeSchema, "recipe");
+const Recipe = mongoose.model(
+  "Recipe",
+  new mongoose.Schema(recipeSchema, { timestamps: true }),
+  "recipe"
+);
 
 export default Recipe;

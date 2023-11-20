@@ -24,7 +24,7 @@ const RECIPE_ROUTES = {
 router.get(RECIPE_ROUTES.GET_ALL, getAllRecipes);
 router.get(RECIPE_ROUTES.GET_ONE, getOneRecipe);
 router.put(RECIPE_ROUTES.UPDATE, updateRecipe);
-router.post(RECIPE_ROUTES.CREATE, isAuthenticated, createRecipe);
+router.post(RECIPE_ROUTES.CREATE, /*isAuthenticated*/ createRecipe);
 router.delete(RECIPE_ROUTES.DELETE, deleteRecipe);
 
 export default router;
