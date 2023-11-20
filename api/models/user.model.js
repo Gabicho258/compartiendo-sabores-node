@@ -8,6 +8,8 @@ const userSchema = {
   phone_number: String,
   description: String,
   photo_url: String,
+  favorites: { type: Array, default: [] },
+  role: String,
 };
 
 const User = mongoose.model(
