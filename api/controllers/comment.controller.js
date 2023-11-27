@@ -8,6 +8,15 @@ export const getAllComment = async (req, res) => {
     res.status(500).json({ error });
   }
 };
+export const getCommentsByRecipeId = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const comments = await Comment.find({ recipe_id: id });
+    res.status(200).json(comments);
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};
 
 export const createComment = async (req, res) => {
   const newComment = new Comment({ ...req.body });
