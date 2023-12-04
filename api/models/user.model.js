@@ -7,7 +7,11 @@ const userSchema = {
   password: String,
   phone_number: String,
   description: String,
-  photo_url: String,
+  photo_url: {
+    type: String,
+    default:
+      "https://res.cloudinary.com/hotelapp/image/upload/v1701376634/user_photos/lkgygchjqf4gqjow6wqj.webp",
+  },
   favorites: { type: Array, default: [] },
   role: String,
 };
