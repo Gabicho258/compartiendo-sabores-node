@@ -66,6 +66,10 @@ io.on("connection", (socket) => {
         user: socket.nickname,
       });
     } else {
+      io.to(list_users[socket.nickname]).emit("sendMessage", {
+        message,
+        user: socket.nickname,
+      });
       console.log(
         "El usuario al que intentas enviar el mensaje no está conectado o no existe!"
       );
