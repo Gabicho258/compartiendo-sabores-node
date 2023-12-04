@@ -2,6 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import "dotenv/config.js";
+import http from "http";
+import { Server } from "socket.io";
 
 //Importación de rutas
 import {
@@ -23,7 +25,23 @@ await mongoose
 // Server
 
 const app = express();
+const server = http.createServer(app);
 
+const io = new Server(server, {
+  cors: { origin: "*" },
+});
+io.on("connection", (socket) => {
+  console.log("Se ha conectado un cliente");
+
+  socket.broadcast.emit("chat_message", {
+    usuario: "INFO",
+    mensaje: "Se ha conectado un nuevo usuario",
+  });
+
+  socket.on("chat_message", (data) => {
+    io.emit("chat_message", data);
+  });
+});
 // Middleware
 
 app.use(cors());
@@ -43,6 +61,6 @@ app.use("/", (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log("Server listening on port: " + PORT);
 });
