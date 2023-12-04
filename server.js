@@ -25,23 +25,56 @@ await mongoose
 // Server
 
 const app = express();
+// socket io
+const list_users = {};
 const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: { origin: "*" },
 });
 io.on("connection", (socket) => {
-  console.log("Se ha conectado un cliente");
-
-  socket.broadcast.emit("chat_message", {
-    usuario: "INFO",
-    mensaje: "Se ha conectado un nuevo usuario",
+  console.log("User connected");
+  socket.on("register", (nickname) => {
+    if (list_users[nickname]) {
+      socket.emit("userExists");
+      return;
+    } else {
+      list_users[nickname] = socket.id;
+      socket.nickname = nickname;
+      socket.emit("login");
+      io.emit("activeSessions", list_users);
+    }
   });
 
-  socket.on("chat_message", (data) => {
-    io.emit("chat_message", data);
+  socket.on("disconnect", () => {
+    delete list_users[socket.nickname];
+    io.emit("activeSessions", list_users);
+  });
+
+  socket.on("sendMessage", ({ message, image }) => {
+    io.emit("sendMessage", { message, user: socket.nickname, image });
+  });
+
+  socket.on("sendMessagesPrivate", ({ message, image, selectUser }) => {
+    if (list_users[selectUser]) {
+      io.to(list_users[selectUser]).emit("sendMessage", {
+        message,
+        user: socket.nickname,
+        image,
+      });
+      io.to(list_users[socket.nickname]).emit("sendMessage", {
+        message,
+        user: socket.nickname,
+        image,
+      });
+    } else {
+      console.log(
+        "El usuario al que intentas enviar el mensaje no está conectado o no existe!"
+      );
+    }
   });
 });
+//////////////////////
 // Middleware
 
 app.use(cors());
