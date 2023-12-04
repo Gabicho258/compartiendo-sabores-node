@@ -51,21 +51,19 @@ io.on("connection", (socket) => {
     io.emit("activeSessions", list_users);
   });
 
-  socket.on("sendMessage", ({ message, image }) => {
-    io.emit("sendMessage", { message, user: socket.nickname, image });
+  socket.on("sendMessage", ({ message }) => {
+    io.emit("sendMessage", { message, user: socket.nickname });
   });
 
-  socket.on("sendMessagesPrivate", ({ message, image, selectUser }) => {
+  socket.on("sendMessagesPrivate", ({ message, selectUser }) => {
     if (list_users[selectUser]) {
       io.to(list_users[selectUser]).emit("sendMessage", {
         message,
         user: socket.nickname,
-        image,
       });
       io.to(list_users[socket.nickname]).emit("sendMessage", {
         message,
         user: socket.nickname,
-        image,
       });
     } else {
       console.log(
